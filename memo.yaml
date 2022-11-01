@@ -4,3 +4,7 @@ INTO TABLE pageviews
 FIELDS TERMINATED BY ' '
 (@var1,@var2,@var3,@var4)
 SET domain_code=@var1, page_title=@var2, count_views=@var3, total_response_size=@var4;
+
+# count_views列にインデックスを作成
+CREATE INDEX count_view_index ON pageviews (count_views);
+

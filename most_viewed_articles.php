@@ -7,7 +7,6 @@ $dotenv->load();
 try {
     $dbh = new PDO($_ENV["DSN"], $_ENV["USER"], $_ENV["PASSWORD"]);
     echo '最もビュー数の多い記事を、指定した記事数だけ多い順に表示します。' . PHP_EOL;
-    echo PHP_EOL;
 
     echo '記事数を入力してください。' . PHP_EOL;
     $articleNum = intval(trim(fgets(STDIN)));
@@ -19,16 +18,16 @@ try {
 
     echo PHP_EOL;
 
-    $sql = 'SELECT domain_code, page_title, count_views
-        FROM pageviews
-        ORDER BY count_views DESC
+    $sql = 'SELECT `domain_code`, `page_title`, `count_views`
+        FROM `pageviews`
+        ORDER BY `count_views` DESC
         LIMIT :articleNum';
     $stmt = $dbh->prepare($sql);
     $stmt->bindValue(':articleNum', $articleNum, PDO::PARAM_INT);
     $stmt->execute();
-    $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($articles as $article) {
+    foreach ($stmt as $article) {
         echo "\"{$article['domain_code']}\", \"{$article['page_title']}\", {$article['count_views']}" . PHP_EOL;
     }
 } catch (PDOException $e) {
